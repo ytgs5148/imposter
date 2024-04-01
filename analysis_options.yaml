@@ -1,5 +1,6 @@
 include: package:flutter_lints/flutter.yaml
 
 linter:
-  rules:
+  rules: 
+    ignore_for_file: file_names
     

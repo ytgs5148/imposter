@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "870874549272",
+    "project_id": "imposter-aeba0",
+    "storage_bucket": "imposter-aeba0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870874549272:android:5659d31d3d1ebe36b1476d",
+        "android_client_info": {
+          "package_name": "com.example.imposter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHtiDuCdIBP98NKBgxs_ryEyMjoSWV3nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

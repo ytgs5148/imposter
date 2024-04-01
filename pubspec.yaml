@@ -9,6 +9,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
+  cloud_firestore: ^4.15.10
+  device_info_plus: ^10.0.1
+  firebase_core: ^2.27.2
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +29,6 @@ flutter:
     - family: ShortStack
       fonts:
       - asset: assets/fonts/ShortStack-Regular.ttf
+    - family: ShadowsIntoLight
+      fonts:
+      - asset: assets/fonts/ShadowsIntoLight-Regular.ttf
