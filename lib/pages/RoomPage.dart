@@ -17,6 +17,7 @@ class RoomPage extends StatefulWidget {
 
 class _RoomPageState extends State<RoomPage> {
   final String roomCode;
+  Database db = Database();
 
   _RoomPageState(this.roomCode);
 
@@ -38,11 +39,19 @@ class _RoomPageState extends State<RoomPage> {
                       fontWeight: FontWeight.w800),
                 )),
             StreamBuilder<QuerySnapshot>(
-              stream: Database().getLobby(roomCode),
+              stream: Database().getLobbySnapshot(roomCode),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (snapshot.data != null) {
+                    if (snapshot.data!.docs.isEmpty) Navigator.pushNamed(context, '/error', arguments: 'Invalid room code');
                     Map<String, dynamic> data = snapshot.data!.docs[0].data() as Map<String, dynamic>;
+
+                    print('ashafgas ${data}');
+                    if (data['status'] == 1) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        Navigator.pushNamed(context, '/game', arguments: roomCode);
+                      });
+                    }
 
                     return Column(
                       children: [
@@ -87,11 +96,10 @@ class _RoomPageState extends State<RoomPage> {
                       ],
                     );
                   } else {
+                    print('asufh');
                     return Center(child: Text('No players in lobby'));
                   }
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
+                } else return Center(child: CircularProgressIndicator());
               },
             ),
             Container(
@@ -119,6 +127,7 @@ class _RoomPageState extends State<RoomPage> {
               padding: const EdgeInsets.fromLTRB(10, 25, 10, 0),
               child: FloatingActionButton.extended(
                 onPressed: () {
+                  db.startGame(roomCode);
                   Navigator.pushNamed(context, '/game', arguments: roomCode);
                 },
                 label: const Text(

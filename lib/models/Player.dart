@@ -15,4 +15,11 @@ class Player {
 
     return m;
   }
+
+  static fromJSON(Map<String, dynamic> json) {
+    return Player(
+      username: json['username'],
+      deviceID: json['deviceID']
+    );
+  }
 }

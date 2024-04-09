@@ -67,9 +67,9 @@ class _CreateLobbyPageState extends State<CreateLobbyPage> {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: FloatingActionButton.extended(
                 onPressed: () async {
-                  db.createLobby(Room(roomCode: roomCode, host: Player(deviceID: await UniqueID.getId(), username: username), created: DateTime.now(), players: [] ));
+                  db.createLobby(Room(roomCode: roomCode, host: Player(deviceID: await UniqueID.getId(), username: username), created: DateTime.now(), players: [], status: 0 ));
                   Navigator.pushNamed(context, '/room', arguments: roomCode);
-                },
+                }, 
                 label: const Text(
                   'Join',
                   style: TextStyle(fontSize: 30, fontFamily: 'ShortStack'),

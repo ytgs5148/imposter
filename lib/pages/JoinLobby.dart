@@ -93,6 +93,16 @@ class _JoinLobbyPageState extends State<JoinLobbyPage> {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: FloatingActionButton.extended(
                 onPressed: () async {
+                  if (username.isEmpty || roomCode.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('Please fill in all fields!'),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                    return;
+                  }
+
                   db.joinLobby(roomCode, Player(username: username, deviceID: await UniqueID.getId()));
                   Navigator.pushNamed(context, '/room', arguments: roomCode);
                 },
