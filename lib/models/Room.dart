@@ -24,13 +24,13 @@ class Room {
   static fromJSON(Map<String, dynamic> data) {
     return Room(
       roomCode: data['roomCode'],
-      host: Player.fromJSON(data['host']),
-      created: data['created'],
-      players: data['players'].map<Player>((player) => Player.fromJSON(player)).toList(),
+      host: Player.fromJSON(data['host'] as Map<String, dynamic>),
+      created: data['created'].toDate(),
+      players: data['players'].map((player) => Player.fromJSON(player)).toList().cast<Player>(),
       status: data['status'],
       imposter: data['imposter'] != null ? Player.fromJSON(data['imposter']) : null,
       mainQuestion: data['mainQuestion'],
-      imposterQuestion: data['imposterQuestion']
+      imposterQuestion: data['imposterQuestion'],
     );
   }
 }

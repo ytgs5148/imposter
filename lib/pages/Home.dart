@@ -34,7 +34,9 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 170, 10, 10),
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/create');
+                  WidgetsBinding.instance.addPostFrameCallback((_) async {
+                    Navigator.pushNamedAndRemoveUntil(context, '/create', (route) => false);
+                  });
                 },
                 label: const Text('Create a Room', style: TextStyle(
                   fontSize: 25,
@@ -49,7 +51,9 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/join');
+                  WidgetsBinding.instance.addPostFrameCallback((_) async {
+                    Navigator.pushNamedAndRemoveUntil(context, '/join', (route) => false);
+                  });
                 },
                 label: const Text('Join a Lobby', style: TextStyle(
                   fontSize: 30,

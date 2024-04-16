@@ -1,10 +1,12 @@
 class Player {
   final String username;
   final String deviceID;
+  final String? votedFor;
 
   Player({
     required this.username,
-    required this.deviceID
+    required this.deviceID,
+    this.votedFor
   });
 
   toJSONEncodable() {
@@ -12,6 +14,7 @@ class Player {
 
     m['username'] = username;
     m['deviceID'] = deviceID;
+    m['votedFor'] = votedFor;
 
     return m;
   }
@@ -19,7 +22,8 @@ class Player {
   static fromJSON(Map<String, dynamic> json) {
     return Player(
       username: json['username'],
-      deviceID: json['deviceID']
+      deviceID: json['deviceID'],
+      votedFor: json['votedFor']
     );
   }
 }

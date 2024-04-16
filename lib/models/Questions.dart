@@ -3,7 +3,14 @@ import 'dart:math';
 class Questions {
   List<String> questions = [
     'This is a normal question',
-    'This is an imposter question'
+    'This is an imposter question',
+    'This is question 3',
+    'This is question 4',
+    'This is question 5',
+    'This is question 6',
+    'This is question 7',
+    'This is question 8',
+    'This is question 9',
   ];
 
   getQuestions() {

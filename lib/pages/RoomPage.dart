@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:imposter/auth/Database.dart';
+import 'package:imposter/utils/UniqueID.dart';
 
 class RoomPage extends StatefulWidget {
   final String data;
@@ -43,13 +44,18 @@ class _RoomPageState extends State<RoomPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (snapshot.data != null) {
-                    if (snapshot.data!.docs.isEmpty) Navigator.pushNamed(context, '/error', arguments: 'Invalid room code');
+                    if (snapshot.data!.docs.isEmpty) Navigator.pushNamedAndRemoveUntil(context, '/error', (route) => false, arguments: 'Invalid room code');
                     Map<String, dynamic> data = snapshot.data!.docs[0].data() as Map<String, dynamic>;
 
-                    print('ashafgas ${data}');
                     if (data['status'] == 1) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Navigator.pushNamed(context, '/game', arguments: roomCode);
+                      WidgetsBinding.instance.addPostFrameCallback((_) async {
+                        String deviceID = await UniqueID.getId();
+                        Navigator.pushNamedAndRemoveUntil(context, '/game', (route) => false, arguments: '${roomCode}_${deviceID}');
+                      });
+                    } else if (data['status'] == 2) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) async {
+                        String deviceID = await UniqueID.getId();
+                        Navigator.pushNamedAndRemoveUntil(context, '/results', (route) => false, arguments: '${roomCode}_${deviceID}');
                       });
                     }
 
@@ -59,7 +65,6 @@ class _RoomPageState extends State<RoomPage> {
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                           child: RichText(
                             text: TextSpan(
-                              // style: Theme.of(context).textTheme.body1,
                               children: [
                                 WidgetSpan(
                                   child: Padding(
@@ -95,10 +100,7 @@ class _RoomPageState extends State<RoomPage> {
                           ),
                       ],
                     );
-                  } else {
-                    print('asufh');
-                    return Center(child: Text('No players in lobby'));
-                  }
+                  } else return Center(child: Text('No players in lobby'));
                 } else return Center(child: CircularProgressIndicator());
               },
             ),
@@ -126,9 +128,10 @@ class _RoomPageState extends State<RoomPage> {
             Container(
               padding: const EdgeInsets.fromLTRB(10, 25, 10, 0),
               child: FloatingActionButton.extended(
-                onPressed: () {
+                onPressed: () async {
                   db.startGame(roomCode);
-                  Navigator.pushNamed(context, '/game', arguments: roomCode);
+                  String deviceID = await UniqueID.getId();
+                  Navigator.pushNamedAndRemoveUntil(context, '/game', (route) => false, arguments: '${roomCode}_${deviceID}');
                 },
                 label: const Text(
                   'Start Game',

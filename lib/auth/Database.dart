@@ -51,4 +51,43 @@ class Database {
       } else print('No lobby found');
     });
   }
+
+  addVote(String roomCode, Player user, String targetDeviceID) {
+    return _firestore.collection('lobbies').where('roomCode', isEqualTo: roomCode).get().then((value) {
+      if (value.docs.isNotEmpty) {
+        var data = value.docs[0].data();
+        var player = data['players'].firstWhere((element) => element['deviceID'] == user.deviceID);
+
+        player['votedFor'] = targetDeviceID;
+        value.docs[0].reference.update({ 'players': data['players'] });
+      } else print('No lobby found');
+    });
+  }
+
+  endGame(String roomCode) {
+    return _firestore.collection('lobbies').where('roomCode', isEqualTo: roomCode).get().then((value) {
+      if (value.docs.isNotEmpty) {
+        var lobby = value.docs[0];
+        lobby.reference.update({ 'status': 2 });
+      } else print('No lobby found');
+    });
+  }
+
+  restartGame(String roomCode) async {
+    return await _firestore.collection('lobbies').where('roomCode', isEqualTo: roomCode).get().then((value) {
+      if (value.docs.isNotEmpty) {
+        var lobby = value.docs[0];
+        lobby.reference.update({ 'status': 0 });
+      } else print('No lobby found');
+    });
+  }
+
+  deleteLobby(String roomCode) {
+    return _firestore.collection('lobbies').where('roomCode', isEqualTo: roomCode).get().then((value) {
+      if (value.docs.isNotEmpty) {
+        var lobby = value.docs[0];
+        lobby.reference.delete();
+      } else print('No lobby found');
+    });
+  }
 }

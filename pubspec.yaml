@@ -12,11 +12,19 @@ dependencies:
   cloud_firestore: ^4.15.10
   device_info_plus: ^10.0.1
   firebase_core: ^2.27.2
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/img/mascot.png"
+  min_sdk_android: 21
 
 flutter:
   uses-material-design: true
@@ -32,3 +40,6 @@ flutter:
     - family: ShadowsIntoLight
       fonts:
       - asset: assets/fonts/ShadowsIntoLight-Regular.ttf
+    - family: TiltNeon
+      fonts:
+      - asset: assets/fonts/TiltNeon.ttf

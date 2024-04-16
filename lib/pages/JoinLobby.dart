@@ -33,8 +33,10 @@ class _JoinLobbyPageState extends State<JoinLobbyPage> {
                       fontSize: 60,
                       color: Colors.white,
                       fontFamily: 'Grandstander',
-                      fontWeight: FontWeight.w800),
-                )),
+                      fontWeight: FontWeight.w800
+                    ),
+                  )
+              ),
             Container(
               padding: const EdgeInsets.fromLTRB(50, 100, 50, 0),
               child: TextField(
@@ -104,7 +106,7 @@ class _JoinLobbyPageState extends State<JoinLobbyPage> {
                   }
 
                   db.joinLobby(roomCode, Player(username: username, deviceID: await UniqueID.getId()));
-                  Navigator.pushNamed(context, '/room', arguments: roomCode);
+                  Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: roomCode);
                 },
                 label: const Text(
                   'Join',

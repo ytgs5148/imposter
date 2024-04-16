@@ -4,6 +4,7 @@ import 'package:imposter/pages/GamePage.dart';
 import 'package:imposter/pages/Home.dart';
 import 'package:imposter/pages/JoinLobby.dart';
 import 'package:imposter/pages/RoomPage.dart';
+import 'package:imposter/pages/ResultPage.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,6 +21,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RoomPage(data: args));
       case '/game':
         return MaterialPageRoute(builder: (_) => GamePage(data: args));
+      case '/results':
+        return MaterialPageRoute(builder: (_) => ResultPage(data: args));
       default:
         return errorRoute(args);
     }
@@ -41,7 +44,7 @@ class RouteGenerator {
               ),
               FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.pushNamed(_, '/home', arguments: args);
+                  Navigator.pushNamedAndRemoveUntil(_, '/', (route) => false, arguments: args);
                 },
                 label: const Text(
                   'Go Back',
