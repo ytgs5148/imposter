@@ -49,6 +49,7 @@ class _GamePageState extends State<GamePage> {
                     num ofVotes = allPlayers.where((player) => player.votedFor != null).length;
                     Player user = allPlayers.firstWhere((player) => player.deviceID == deviceID);
                     List<Player> allPlayersExceptUser = allPlayers.where((player) => player.deviceID != deviceID).toList();
+                    bool isHost = data.host.deviceID == deviceID;
 
                     if ((ofVotes == allPlayers.length && data.status != 0) || data.status == 2) {
                       WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -63,7 +64,7 @@ class _GamePageState extends State<GamePage> {
                           Container(
                             padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
@@ -76,6 +77,20 @@ class _GamePageState extends State<GamePage> {
                                     color: Colors.white,
                                   )
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 80),
+                                  child: IconButton(
+                                    icon: Icon(Icons.refresh, size: 30, color: Colors.white,),
+                                    onPressed: () async {
+                                      if (isHost) {
+                                        await db.restartGame(roomCode);
+                                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                                          Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: '${roomCode}_${deviceID}');
+                                        });
+                                      } else await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Only the host can restart the game')));
+                                    },
+                                  ),
+                                )
                               ],
                             )
                           ),
