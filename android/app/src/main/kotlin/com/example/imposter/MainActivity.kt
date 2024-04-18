@@ -1,4 +1,4 @@
-package com.example.imposter
+package com.ytgs.imposter
 
 import io.flutter.embedding.android.FlutterActivity
 

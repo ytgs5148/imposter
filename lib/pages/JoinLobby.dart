@@ -106,7 +106,8 @@ class _JoinLobbyPageState extends State<JoinLobbyPage> {
                   }
 
                   db.joinLobby(roomCode, Player(username: username, deviceID: await UniqueID.getId()));
-                  Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: roomCode);
+                  String deviceID = await UniqueID.getId();
+                  Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: '${roomCode}_${deviceID}');
                 },
                 label: const Text(
                   'Join',

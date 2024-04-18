@@ -68,7 +68,8 @@ class _CreateLobbyPageState extends State<CreateLobbyPage> {
               child: FloatingActionButton.extended(
                 onPressed: () async {
                   db.createLobby(Room(roomCode: roomCode, host: Player(deviceID: await UniqueID.getId(), username: username), created: DateTime.now(), players: [], status: 0 ));
-                  Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: roomCode);
+                  String deviceID = await UniqueID.getId();
+                  Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: '${roomCode}_${deviceID}');
                 }, 
                 label: const Text(
                   'Join',

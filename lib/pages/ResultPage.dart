@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:imposter/models/Player.dart';
 import 'package:imposter/models/Room.dart';
 import 'package:collection/collection.dart';
+import 'package:imposter/utils/UniqueID.dart';
 
 class ResultPage extends StatefulWidget {
   final String data;
@@ -106,7 +107,8 @@ class _ResultPageState extends State<ResultPage> {
                             onPressed: () async {
                               await db.restartGame(roomCode);
                               WidgetsBinding.instance.addPostFrameCallback((_) async {
-                                Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: roomCode);
+                                String deviceID = await UniqueID.getId();
+                                Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: '${roomCode}_${deviceID}');
                               });
                             },
                             label: const Text(

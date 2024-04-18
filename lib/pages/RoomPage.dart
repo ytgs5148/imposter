@@ -17,10 +17,14 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
-  final String roomCode;
+  final String args;
+
   Database db = Database();
 
-  _RoomPageState(this.roomCode);
+  late String roomCode = args.split('_')[0];
+  late String deviceID = args.split('_')[1];
+
+  _RoomPageState(this.args);
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +50,7 @@ class _RoomPageState extends State<RoomPage> {
                   if (snapshot.data != null) {
                     if (snapshot.data!.docs.isEmpty) Navigator.pushNamedAndRemoveUntil(context, '/error', (route) => false, arguments: 'Invalid room code');
                     Map<String, dynamic> data = snapshot.data!.docs[0].data() as Map<String, dynamic>;
+                    bool isHost = data['host']['deviceID'] == deviceID;
 
                     if (data['status'] == 1) {
                       WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -62,7 +67,7 @@ class _RoomPageState extends State<RoomPage> {
                     return Column(
                       children: [
                         Container(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                           child: RichText(
                             text: TextSpan(
                               children: [
@@ -87,14 +92,25 @@ class _RoomPageState extends State<RoomPage> {
                         ),
                         for (var player in data['players'])
                           Container(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: Text(
-                              player['username'],
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontFamily: 'ShortStack',
-                                fontWeight: FontWeight.w800,
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                if (isHost) db.kickPlayer(roomCode, player['deviceID']);
+                                else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Only the host can kick players!'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
+                              },
+                              icon: Icon(Icons.remove_circle_outline_rounded, color: Colors.white),
+                              label: Text(player['username'], style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: 'ShortStack', fontWeight: FontWeight.w800)),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                fixedSize: MaterialStateProperty.all<Size>(Size(350, 0)),
                               ),
                             ),
                           ),
@@ -105,7 +121,7 @@ class _RoomPageState extends State<RoomPage> {
               },
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 200, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
               child: FloatingActionButton.extended(
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: roomCode));

@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '870874549272',
     projectId: 'imposter-aeba0',
     storageBucket: 'imposter-aeba0.appspot.com',
-    iosBundleId: 'com.example.imposter',
+    iosBundleId: 'com.ytgs.imposter',
   );
 }

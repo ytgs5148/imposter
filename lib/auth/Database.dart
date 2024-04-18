@@ -90,4 +90,14 @@ class Database {
       } else print('No lobby found');
     });
   }
+
+  kickPlayer(String roomCode, String userDeviceID) {
+    return _firestore.collection('lobbies').where('roomCode', isEqualTo: roomCode).get().then((value) {
+      if (value.docs.isNotEmpty) {
+        var data = value.docs[0].data();
+        var players = data['players'].where((element) => element['deviceID'] != userDeviceID).toList();
+        value.docs[0].reference.update({ 'players': players });
+      } else print('No lobby found');
+    });
+  }
 }

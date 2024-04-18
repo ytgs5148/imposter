@@ -159,7 +159,8 @@ class _GamePageState extends State<GamePage> {
                       ); 
                     } else {
                       WidgetsBinding.instance.addPostFrameCallback((_) async {
-                        Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: roomCode);
+                        String deviceID = await UniqueID.getId();
+                        Navigator.pushNamedAndRemoveUntil(context, '/room', (route) => false, arguments: '${roomCode}_${deviceID}');
                       });
                       return Column(
                         children: [
