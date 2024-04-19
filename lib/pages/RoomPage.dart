@@ -34,15 +34,27 @@ class _RoomPageState extends State<RoomPage> {
         child: Column(
           children: <Widget>[
             Container(
-                padding: const EdgeInsets.fromLTRB(10, 150, 10, 10),
+                padding: const EdgeInsets.fromLTRB(10, 100, 10, 0),
                 child: Text(
-                  'PLAYERS:',
+                  'Game Pin:',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: 'Grandstander',
+                      fontWeight: FontWeight.w800),
+                )
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(
+                  '${roomCode}',
                   style: TextStyle(
                       fontSize: 60,
                       color: Colors.white,
                       fontFamily: 'Grandstander',
                       fontWeight: FontWeight.w800),
-                )),
+                )
+              ),
             StreamBuilder<QuerySnapshot>(
               stream: Database().getLobbySnapshot(roomCode),
               builder: (context, snapshot) {
@@ -67,7 +79,7 @@ class _RoomPageState extends State<RoomPage> {
                     return Column(
                       children: [
                         Container(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          padding: const EdgeInsets.fromLTRB(10, 40, 10, 10),
                           child: RichText(
                             text: TextSpan(
                               children: [

@@ -100,4 +100,14 @@ class Database {
       } else print('No lobby found');
     });
   }
+
+  deleteAllInstanceOfPlayer(String deviceID) {
+    return _firestore.collection('lobbies').get().then((value) {
+      value.docs.forEach((element) {
+        var data = element.data();
+        var players = data['players'].where((element) => element['deviceID'] != deviceID).toList();
+        element.reference.update({ 'players': players });
+      });
+    });
+  }
 }
