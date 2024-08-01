@@ -12,4 +12,4 @@
 
 ## Images
 
-![Pages](https://cdn.discordapp.com/attachments/1254813443383492608/1262300891558711357/collage-min.jpg?ex=669618d0&is=6694c750&hm=6357aecef12cb05ec2c8e52d6b213a07d7bc0862176b3f4580479607ee16c037&)
+![Pages](https://i.ibb.co/GkYTVN4/collage-min.jpg)
